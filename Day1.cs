@@ -21,7 +21,6 @@ public class InputDay1(int[] left, int[] right)
 
 public class Day1Solver()
 {
-
     public void SolvePart1(InputDay1 input)
     {
         int[] leftSorted = input.Left.OrderBy(myInt => myInt).ToArray();

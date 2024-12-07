@@ -83,8 +83,9 @@ internal class Day3Solver
 
     private int ComputeInstruction(string validInstruction)
     {
-        string numberPair = validInstruction.Substring(4, validInstruction.Length - 5);
-        int[] numbers = numberPair.Split(',')
+        // skip 4 chars for "mul(" and a total of 5 to ignore last ")"
+        int[] numbers = validInstruction.Substring(4, validInstruction.Length - 5)
+            .Split(',')
             .Select(int.Parse)
             .ToArray();
         if (numbers.Count() > 2)
