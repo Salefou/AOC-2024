@@ -16,6 +16,8 @@ namespace AOC_2024
             Day5Solver day5Solver = new();
             int solutionPart1 = day5Solver.SolvePart1(input);
             Console.WriteLine(solutionPart1);
+            int solutionPart2 = day5Solver.SolvePart2(input);
+            Console.WriteLine(solutionPart2);
 
             Console.ReadLine();
         }
