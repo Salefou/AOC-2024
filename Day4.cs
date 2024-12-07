@@ -24,7 +24,7 @@ internal class InputDay4(Characters[][] matrix)
 
     public Characters[][] Matrix { get; } = matrix;
 
-    internal static InputDay4 Parse(string pathToFile, ISet<char> allowedCharacters)
+    internal static InputDay4 Parse(string pathToFile)
     {
         string[] lines = File.ReadAllLines(pathToFile);
         Characters[][] matrix = new Characters[lines.Length][];
@@ -32,7 +32,7 @@ internal class InputDay4(Characters[][] matrix)
         foreach (string line in lines)
         {
             matrix[lineIndex] = line.Select(
-                myChar => allowedCharacters.Contains(myChar) ? mapping[myChar] : Characters.O
+                myChar => mapping.ContainsKey(myChar) ? mapping[myChar] : Characters.O
                 ).ToArray();
             lineIndex++;
         }
@@ -51,10 +51,9 @@ internal class Day4Solver
             Characters[] line = input.Matrix[i];
             for (int j = 0; j < line.Length; j++)
             {
-                Characters character = line[j];
-                if (character == Characters.X)
+                if (line[j] == Characters.X)
                 {
-                    foreach (var move in moves)
+                    foreach (var move in allMoves)
                     {
                         totalXmasCount += SearchDirection(matrix, move, i, j, (int)Characters.X);
                     }
@@ -64,10 +63,59 @@ internal class Day4Solver
         return totalXmasCount;
     }
 
-    private static readonly int[][] moves = [
+    internal int SolvePart2(InputDay4 input)
+    {
+        int totalXmasCount = 0;
+        Characters[][] matrix = input.Matrix;
+        for (int i = 0; i < matrix.Length; i++)
+        {
+            Characters[] line = input.Matrix[i];
+            for (int j = 0; j < line.Length; j++)
+            {
+                if (line[j] == Characters.A)
+                {
+                    if (FindTwoCrossesThrough(matrix, i, j))
+                    {
+                        totalXmasCount++;
+                    }
+                }
+            }
+        }
+        return totalXmasCount;
+    }
+
+    private bool FindTwoCrossesThrough(Characters[][] matrix, int i, int j)
+    {
+        int totalCrossesThrough = 0;
+        foreach (var crossMove in crossMoves)
+        {
+            int movedI = i + crossMove[0];
+            int movedJ = j + crossMove[1];
+            if (TryGet(movedI, movedJ, matrix, out var characters))
+            {
+                if (characters == Characters.M)
+                {
+                    int[] reverseMove = [-crossMove[0], -crossMove[1]];
+                    totalCrossesThrough += SearchDirection(matrix, reverseMove, movedI, movedJ, (int)Characters.M);
+                    if (totalCrossesThrough >= 2)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static readonly int[][] allMoves = [
         [-1, 1], [0, 1], [1, 1],
-        [-1, 0],         [1, 0],
+        [-1, 0], /*own*/ [1, 0],
         [-1, -1], [0, -1], [1, -1],
+    ];
+
+    private static readonly int[][] crossMoves = [
+        [-1, -1], [1, -1],
+        [-1, 1], [1, 1],
     ];
 
     private int SearchDirection(Characters[][] matrix, int[] move, int i, int j, int current)
