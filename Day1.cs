@@ -6,23 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AOC_2024;
-internal class Program
+internal class Day1
 {
     static void Main(string[] args)
     {
-        InputDay1 inputDay1 = Parse("../../inputs/input_day_1.txt");
+        InputDay1 inputDay1 = InputDay1.Parse("../../inputs/input_day_1.txt");
         Day1Solver day1Solver = new Day1Solver();
         day1Solver.SolvePart1(inputDay1);
         day1Solver.SolvePart2(inputDay1);
         Console.ReadLine();
-    }
-
-    static InputDay1 Parse(string pathToFile)
-    {
-        var lines = File.ReadAllLines(pathToFile);
-        var firstArray = lines.Select(line => int.Parse(line.Split()[0])).ToArray();
-        var secondArray = lines.Select(line => int.Parse(line.Split()[3])).ToArray();
-        return new InputDay1(firstArray, secondArray);
     }
 }
 
@@ -30,6 +22,14 @@ internal class InputDay1(int[] left, int[] right)
 {
     public int[] Left { get; } = left;
     public int[] Right { get; } = right;
+
+    internal static InputDay1 Parse(string pathToFile)
+    {
+        var lines = File.ReadAllLines(pathToFile);
+        var firstArray = lines.Select(line => int.Parse(line.Split()[0])).ToArray();
+        var secondArray = lines.Select(line => int.Parse(line.Split()[3])).ToArray();
+        return new InputDay1(firstArray, secondArray);
+    }
 }
 
 internal class Day1Solver
