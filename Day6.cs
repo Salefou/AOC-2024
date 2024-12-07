@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AOC_2024;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -61,6 +62,13 @@ internal class InputDay6(Guard guard, int[][] room)
     public Guard Guard { get; } = guard;
     public int[][] Room { get; } = room;
 
+    private static readonly Dictionary<char, int> characterToDirection = new()
+    {
+        {'^', 0},
+        {'>', 1 },
+        {'v', 2 },
+        {'<', 3 }
+    };
 
     internal static InputDay6 Parse(string pathToFile)
     {
@@ -84,21 +92,9 @@ internal class InputDay6(Guard guard, int[][] room)
                 {
                     room[i][j] = 1;
                 }
-                else if (character == '^')
+                else
                 {
-                    guard = new Guard(i, j, 0);
-                }
-                else if (character == '>')
-                {
-                    guard = new Guard(i, j, 1);
-                }
-                else if (character == 'v')
-                {
-                    guard = new Guard(i, j, 2);
-                }
-                else if (character == '<')
-                {
-                    guard = new Guard(i, j, 2);
+                    guard = new Guard(i, j, characterToDirection[character]);
                 }
             }
         }
