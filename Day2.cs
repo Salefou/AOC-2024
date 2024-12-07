@@ -6,21 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AOC_2024;
-internal class Day2
-{
-    /*
-    static void Main(string[] args)
-    {
-        InputDay2 inputDay2 = InputDay2.Parse("../../inputs/example_day_2.txt");
 
-        Day2Solver day2Solver = new();
-        day2Solver.SolvePart1(inputDay2);
-        // day2Solver.SolvePart2(inputDay2);
-        Console.ReadLine();
-    }
-    */
-
-}
 internal class InputDay2(List<int[]> reportList)
 {
     public List<int[]> ReportList { get; } = reportList;

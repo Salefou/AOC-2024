@@ -10,14 +10,15 @@ namespace AOC_2024
     {
         public static void Main(string[] args)
         {
-            InputDay3 inputDay3 = InputDay3.Parse("../../inputs/input_day_3.txt");
-            Day3Solver day3Solver = new();
+            InputDay4 inputDay4Part1 = InputDay4.Parse("../../inputs/input_day_4.txt", new HashSet<char>() { 'X', 'M', 'A', 'S' });
+            Day4Solver day4Solver = new();
 
-            int solutionPart1 = day3Solver.SolvePart1(inputDay3);
+            int solutionPart1 = day4Solver.SolvePart1(inputDay4Part1);
             Console.WriteLine(solutionPart1);
 
-            int solutionPart2 = day3Solver.SolvePart2(inputDay3);
-            Console.WriteLine(solutionPart2);
+            InputDay4 inputDay4Part2 = InputDay4.Parse("../../inputs/input_day_4.txt", new HashSet<char>() { 'M', 'A', 'S' });
+            //int solutionPart2 = day3Solver.SolvePart2(inputDay3);
+            //Console.WriteLine(solutionPart2);
 
             Console.ReadLine();
         }
