@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace AOC_2024;
@@ -45,12 +46,12 @@ internal class Instruction(long result, int[] operands)
 
 internal class Day7Solver
 {
-    internal long SolvePart1(Instruction[] instructions)
+    private long Solve(Instruction[] instructions, Func<long, long, int[], bool> recursiveCheck)
     {
         long totalScore = 0;
         foreach (Instruction instruction in instructions)
         {
-            if (CanSolve(instruction))
+            if (CanSolve(instruction, recursiveCheck))
             {
                 totalScore += instruction.Result;
             }
@@ -58,16 +59,44 @@ internal class Day7Solver
         return totalScore;
     }
 
-    private bool CanSolve(Instruction instruction)
+    internal long SolvePart1(Instruction[] instructions)
+    {
+        return Solve(instructions, CanSolveRecursively1);
+    }
+
+    internal long SolvePart2(Instruction[] instructions)
+    {
+        return Solve(instructions, CanSolveRecursively2);
+    }
+
+    private bool CanSolve(Instruction instruction, Func<long, long, int[], bool> recursiveCheck)
     {
         long result = instruction.Result;
         int[] operands = instruction.Operands;
         long startValue = operands[0];
         int[] otherOperands = DropFirst(operands);
-        return CanSolveRecursively(startValue, result, otherOperands);
+        return recursiveCheck(startValue, result, otherOperands);
     }
 
-    private bool CanSolveRecursively(long count, long result, int[] operands)
+    private bool CanSolveRecursively2(long count, long result, int[] operands)
+    {
+        if (operands.Length == 0)
+        {
+            return count == result;
+        }
+        int nextOperand = operands[0];
+        int[] reducedOperands = DropFirst(operands);
+
+        long sum = count + nextOperand;
+        long product = count * nextOperand;
+        long concatenation = long.Parse("" + count + nextOperand);
+
+        return CanSolveRecursively2(sum, result, reducedOperands)
+            || CanSolveRecursively2(product, result, reducedOperands)
+            || CanSolveRecursively2(concatenation, result, reducedOperands);
+    }
+
+    private bool CanSolveRecursively1(long count, long result, int[] operands)
     {
         if (operands.Length == 0)
         {
@@ -79,7 +108,7 @@ internal class Day7Solver
         long sum = count + nextOperand;
         long product = count * nextOperand;
 
-        return CanSolveRecursively(sum, result, reducedOperands) || CanSolveRecursively(product, result, reducedOperands);
+        return CanSolveRecursively1(sum, result, reducedOperands) || CanSolveRecursively1(product, result, reducedOperands);
     }
 
     private int[] DropFirst(int[] array)
