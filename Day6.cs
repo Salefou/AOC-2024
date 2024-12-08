@@ -294,7 +294,7 @@ internal class Day6Solver
                     }
                 }
             }
-            Console.WriteLine($"Done testing floor index {i}");
+            // Console.WriteLine($"Done testing floor index {i}");
         }
         return actualCyclingMines.Count();
     }
@@ -349,7 +349,7 @@ internal class Day6Solver
             if (guard.CyclesIn(room))
             {
                 actualCyclingMines.Add(candidateMine);
-                Console.WriteLine($"Found new good mine {candidateMine}");
+                // Console.WriteLine($"Found new good mine {candidateMine}");
             }
         }
         return actualCyclingMines.Count();
