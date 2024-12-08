@@ -10,14 +10,14 @@ namespace AOC_2024
     {
         public static void Main(string[] args)
         {
-            string path = "../../inputs/example_day_6.txt";
+            string path = "../../inputs/input_day_6.txt";
             InputDay6 input = InputDay6.Parse(path);
 
             Day6Solver solver = new();
             int solutionPart1 = solver.SolvePart1(input);
             Console.WriteLine(solutionPart1);
 
-            int solutionPart2 = solver.SolvePart2(input);
+            int solutionPart2 = solver.SolvePart2Lame(input);
             Console.WriteLine(solutionPart2);
 
             Console.ReadLine();
